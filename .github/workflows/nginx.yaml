@@ -1,0 +1,44 @@
+name: Nginx
+on:
+  push:
+    tags:
+      - "v*"
+    paths:
+      - 'start'
+  watch:
+    types: [started]
+
+jobs:
+  release-amd64:
+    name: Release amd64
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    container: debian:11
+    env:
+      output_name: nginx-amd64
+    steps:
+      - name: Install prerequisites
+        run: |
+          apt-get -qq update -y && apt-get -qq install -y install \
+          binutils \
+          build-essential \
+          curl \
+          dirmngr \
+          libssl-dev \
+          libxml2 libxml2-dev libxslt-dev libgd-dev libgeoip-dev
+
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Build nginx binary
+        id: compile
+        run: ./nginx-build.sh "${output_name}"
+
+      - name: Upload packages directory
+        if:  steps.compile.outputs.status == 'success'
+        uses: actions/upload-artifact@main
+        with:
+          name: nginx_package
+          path: /tmp/${output_name}
+          
+
