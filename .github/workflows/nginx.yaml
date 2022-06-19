@@ -29,12 +29,12 @@ jobs:
 
       - name: Build nginx binary
         id: compile
-        run: ./nginx-build.sh "${output_name}"
+        run: ./nginx-build.sh "/build"
 
       - name: Upload packages directory
         uses: actions/upload-artifact@main
         with:
           name: nginx_package
-          path: /tmp/${output_name}
+          path: /build/
           
 

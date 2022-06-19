@@ -140,6 +140,7 @@ make -j"$(nproc)"
 make install -j"$(nproc)"
 make clean
 strip -s ${output_bin}
-output_name="$1"
+output_path="$1"
 cd ${mainpath}
-tar czvf /tmp/${output_name}.tar.gz ./
+mkdir -p ${output_path}
+tar czvf ${output_path}/${version_nginx}.tar.gz ./
