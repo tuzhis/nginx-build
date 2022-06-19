@@ -32,7 +32,7 @@ opgp_openssl=8657ABB260F056B1E5190839D9C4D26D0E604491
 opgp_nginx=B0F4253373F8F6F510D42178520A9993A1C052F8
 
 # Set where OpenSSL and NGINX will be built
-bpath=/tmp/nginx-build
+bpath="$(mktemp -d)"
 mainpath=/work/local/nginx
 runpath=/work/rundata/nginx
 configpath=/work/data/nginx
@@ -40,10 +40,6 @@ output_bin=${mainpath}/bin/nginx
 
 # Make a "today" variable for use in back-up filenames later
 today=$(date +"%Y-%m-%d")
-
-# Clean out any files from previous runs of this script
-rm -rf "$bpath" 
-mkdir "$bpath"
 
 
 # Download the source files
@@ -57,16 +53,6 @@ curl -L "${source_pcre}${version_pcre}.tar.gz.sig" -o "${bpath}/pcre.tar.gz.sig"
 curl -L "${source_zlib}${version_zlib}.tar.gz.asc" -o "${bpath}/zlib.tar.gz.asc"
 curl -L "${source_openssl}${version_openssl}.tar.gz.asc" -o "${bpath}/openssl.tar.gz.asc"
 curl -L "${source_nginx}${version_nginx}.tar.gz.asc" -o "${bpath}/nginx.tar.gz.asc"
-
-# Verify the integrity and authenticity of the source files through their OpenPGP signature
-cd "$bpath"
-GNUPGHOME="$(mktemp -d)"
-export GNUPGHOME
-gpg --keyserver keyserver.ubuntu.com --recv-keys "$opgp_pcre" "$opgp_zlib" "$opgp_openssl" "$opgp_nginx"
-gpg --batch --verify pcre.tar.gz.sig pcre.tar.gz
-gpg --batch --verify zlib.tar.gz.asc zlib.tar.gz
-gpg --batch --verify openssl.tar.gz.asc openssl.tar.gz
-gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz
 
 # Expand the source files
 cd "$bpath"
