@@ -1,10 +1,7 @@
 name: Nginx
 on:
   push:
-    tags:
-      - "v*"
-    paths:
-      - 'start'
+    branches: [ "main" ]
   watch:
     types: [started]
 
