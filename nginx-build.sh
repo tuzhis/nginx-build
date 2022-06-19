@@ -130,7 +130,7 @@ cd "$bpath/$version_nginx"
 --with-stream_realip_module  \
 --with-http_xslt_module \
 --with-http_geoip_module=dynamic \
---with-http_image_filter_module=dynamic \
+--with-http_image_filter_module \
 --with-threads \
 --without-http_empty_gif_module \
 --without-http_geo_module \
