@@ -32,7 +32,6 @@ jobs:
         run: ./nginx-build.sh "${output_name}"
 
       - name: Upload packages directory
-        if:  steps.compile.outputs.status == 'success'
         uses: actions/upload-artifact@main
         with:
           name: nginx_package
