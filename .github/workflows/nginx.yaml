@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: Install prerequisites
         run: |
-          apt-get -qq update -y && apt-get -qq install -y install \
+          apt-get -qq update -y && apt-get -qq install \
           binutils \
           build-essential \
           curl \
